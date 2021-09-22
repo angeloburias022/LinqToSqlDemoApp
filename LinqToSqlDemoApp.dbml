@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="dotnet_exam" Class="LinqToSqlDemoAppDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=dotnet_exam;Integrated Security=True" SettingsObjectName="LinqToSqlDemoApp.Properties.Settings" SettingsPropertyName="dotnet_examConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Address" Member="Addresses">
+    <Type Name="Address">
+      <Column Name="AddressID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="HouseNo" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="Street" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="Barangay" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="City" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="People_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="People_Address" Member="People" ThisKey="People_ID" OtherKey="PeopleID" Type="People" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Customer" Member="Customers">
+    <Type Name="Customer">
+      <Column Name="CustomerID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Schedule_Record" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="People_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="People_Customer" Member="People" ThisKey="People_ID" OtherKey="PeopleID" Type="People" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Employee" Member="Employees">
+    <Type Name="Employee">
+      <Column Name="EmployeeID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Salary" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
+      <Column Name="DateHired" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="People_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="People_Employee" Member="People" ThisKey="People_ID" OtherKey="PeopleID" Type="People" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.People" Member="Peoples">
+    <Type Name="People">
+      <Column Name="PeopleID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Association Name="People_Address" Member="Addresses" ThisKey="PeopleID" OtherKey="People_ID" Type="Address" />
+      <Association Name="People_Customer" Member="Customers" ThisKey="PeopleID" OtherKey="People_ID" Type="Customer" />
+      <Association Name="People_Employee" Member="Employees" ThisKey="PeopleID" OtherKey="People_ID" Type="Employee" />
+    </Type>
+  </Table>
+</Database>
