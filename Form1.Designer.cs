@@ -37,7 +37,7 @@ namespace LinqToSqlDemoApp
             this.btn_delete = new System.Windows.Forms.Button();
             this.btn_add = new System.Windows.Forms.Button();
             this.btn_save = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tb_search = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.tb_id = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -116,12 +116,14 @@ namespace LinqToSqlDemoApp
             this.btn_save.UseVisualStyleBackColor = true;
             this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
             // 
-            // textBox1
+            // tb_search
             // 
-            this.textBox1.Location = new System.Drawing.Point(76, 24);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 1;
+            this.tb_search.Location = new System.Drawing.Point(76, 24);
+            this.tb_search.Name = "tb_search";
+            this.tb_search.Size = new System.Drawing.Size(100, 20);
+            this.tb_search.TabIndex = 1;
+            this.tb_search.TextChanged += new System.EventHandler(this.tb_search_TextChanged);
+            this.tb_search.Leave += new System.EventHandler(this.tb_search_Leave);
             // 
             // label3
             // 
@@ -162,12 +164,12 @@ namespace LinqToSqlDemoApp
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tb_lname);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.tb_search);
             this.Controls.Add(this.tb_id);
             this.Controls.Add(this.tb_fname);
             this.Controls.Add(this.dataGridView1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "LINQ TO SQL - CRUD";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
@@ -185,7 +187,7 @@ namespace LinqToSqlDemoApp
         private System.Windows.Forms.Button btn_delete;
         private System.Windows.Forms.Button btn_add;
         private System.Windows.Forms.Button btn_save;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tb_search;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tb_id;
         private System.Windows.Forms.Label label4;

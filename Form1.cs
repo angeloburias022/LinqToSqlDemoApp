@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -13,6 +15,9 @@ namespace LinqToSqlDemoApp
 {
     public partial class Form1 : Form
     {
+
+        private static string constring = ConfigurationManager.ConnectionStrings["LinqToSqlDemoApp.Properties.Settings.dotnet_examConnectionString"].ConnectionString;
+
         public Form1()
         {
             InitializeComponent();
@@ -149,6 +154,7 @@ namespace LinqToSqlDemoApp
         private void Form1_Load(object sender, EventArgs e)
         {
             DisplayData();
+            
         }
 
        
@@ -191,10 +197,74 @@ namespace LinqToSqlDemoApp
 
             DeleteRecord(id);
         }
-     
+
 
         /* CRUD ENDS HERE */
 
+
+        // search txtbox
+        private void SearchRecord()
+        {
+
+            try
+            {
+                //using (LinqToSqlDemoAppDataContext db = new LinqToSqlDemoAppDataContext())
+                //{
+
+                //   var ReturnSearch = db.Peoples.SingleOrDefault(x => x.PeopleID == id);
+
+                using (SqlConnection con = new SqlConnection(constring))
+                {
+
+
+                    string SearchQuery = "SELECT FirstName, LastName FROM People WHERE FirstName= '" + tb_search.Text + "' OR LastName='" + tb_search.Text + "'";
+
+
+                    using (SqlCommand com = new SqlCommand(SearchQuery, con))
+                    {
+                        con.Open();
+                        DataTable dt = new DataTable();
+                        dt.Load(com.ExecuteReader());
+                        dataGridView1.DataSource = dt;
+                        com.ExecuteNonQuery();
+                        con.Close();
+                    }
+
+
+                }
+
+
+
+                //    var ReturnSearch = (from peo in db.Peoples
+                //                        where searchWord.Any(w => peo.FirstName.Contains(w)) || searchWord.Any(w => peo.LastName.Contains(w))
+                //                        select new People()
+                //                        {
+
+                //                            FirstName =peo.FirstName,
+                //                            LastName = peo.LastName
+                //                        }).ToList();
+
+                //    return ReturnSearch;
+                //}
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show("Something went wrong " + error, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
+            }
+
+
+
+        }
+
+        private void tb_search_TextChanged(object sender, EventArgs e)
+        {
+            //  string[] search = { tb_search.Text };
+            SearchRecord();
+        }
+
+
+        // events
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             tb_id.Text = this.dataGridView1.CurrentRow.Cells[0].Value.ToString();
@@ -220,6 +290,11 @@ namespace LinqToSqlDemoApp
             tb_id.Text = this.dataGridView1.CurrentRow.Cells[0].Value.ToString();
             tb_fname.Text = this.dataGridView1.CurrentRow.Cells[1].Value.ToString();
             tb_lname.Text = this.dataGridView1.CurrentRow.Cells[2].Value.ToString(); 
+        }
+        private void tb_search_Leave(object sender, EventArgs e)
+        {
+            UpdateGrid();
+            
         }
     }
 }
